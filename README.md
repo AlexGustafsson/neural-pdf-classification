@@ -1,5 +1,16 @@
 # neural-pdf-classification
 ---
+Run Jupyter notebook with:
+
+```shell
+docker run --rm -p 8080:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan jupyter/datascience-notebook:9b06df75e445
+```
+
+```shell
+python3 -m venv venv
+python3 -m pip install -r requirements.txt
+```
+
 Neural-pdf-classification is a proof of concept [classifier](https://en.wikipedia.org/wiki/Linear_classifier) for extracting data from PDF files (namely different parts of the document - titles headers and so on). It's built on top of a [feed forward neural network](https://en.wikipedia.org/wiki/Feedforward_neural_network) and is trained using [backward propagation of errors](https://en.wikipedia.org/wiki/Backpropagation).
 
 
@@ -35,7 +46,7 @@ To understand how a neural network can classify a PDF document we need to make t
 
 The above data is our raw data - this is what we have got to work with. Depending on what we want to extract from the document, we can do different things. Let us say that we want  to extract the title, headings and body. What raw values determine whether it's a heading or a title etc.?
 
-This is where the task gets more difficult. What determines what values corresponds to i.e. a heading is subjective and will change from document to document. What this means is that there is no linear solution to the problem. We cannot simply say that "if the width is 150px and there are seven characters, it is a heading". 
+This is where the task gets more difficult. What determines what values corresponds to i.e. a heading is subjective and will change from document to document. What this means is that there is no linear solution to the problem. We cannot simply say that "if the width is 150px and there are seven characters, it is a heading".
 
 What we can do, however, is to make assumptions. A title will most likely be the biggest text in the document. It is not likely to be used very often, and it can be relatively short. Understanding what i.e. a title may say in numbers gives us insight in the next step of the procedure.
 
@@ -53,7 +64,7 @@ The weights can be hard coded or taught. How to teach a neural network to perfor
 
 #### Using a neural network to classify a document
 
-As previously mentioned, a neural network takes a number of inputs and calculates a number of outputs. In our case of classifying what type of text a word is (title, heading, body etc.) we use the inputs from our raw data and expect the output to represent the type. 
+As previously mentioned, a neural network takes a number of inputs and calculates a number of outputs. In our case of classifying what type of text a word is (title, heading, body etc.) we use the inputs from our raw data and expect the output to represent the type.
 
 ##### Chosing the inputs
 
@@ -82,15 +93,15 @@ Instead of feeding every input to the neural network, we are going to make some 
 |Further styling         |
 |Character count         |
 
-To make measurements the same for all types of pages, positions, width and height is calculated to be relative to that of the document. So instead of having a width of 500px we end up with a width of i.e. 0.5 (50%). 
+To make measurements the same for all types of pages, positions, width and height is calculated to be relative to that of the document. So instead of having a width of 500px we end up with a width of i.e. 0.5 (50%).
 
 ##### Determining the wanted outputs
 
-To train the network to calculate expected results, we have to give it inputs as well as an expected output. This is called a training set. Depending on the network model, amount of training items and learning iterations it can take from a couple of seconds to minutes to teach a neural network for this purpose. 
+To train the network to calculate expected results, we have to give it inputs as well as an expected output. This is called a training set. Depending on the network model, amount of training items and learning iterations it can take from a couple of seconds to minutes to teach a neural network for this purpose.
 
 An easy way of producing a training set for your purpose is to review numerous documents, walking through the different parts and extract their raw data (the inputs we use) along with what they are (title, heading, body etc.). Doing this you may end up with a table containing items like the following.
 
-|                        |"Learning how to bake" | "Step one" | 
+|                        |"Learning how to bake" | "Step one" |
 |:----------------------:|:---------------------:|:----------:|
 |Position on x-axis      |0.25                   |0.1         |
 |Position on y-axis (row)|0.5                    |0.8         |

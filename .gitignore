@@ -1,0 +1,7 @@
+/.ipynb_checkpoints
+/.ipython
+/.jupyter
+/.local
+/venv
+/.cache
+__pycache__
